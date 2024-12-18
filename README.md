@@ -1,6 +1,6 @@
-<strong><h1 align="center"> API RoketNote </h1></strong>
+<strong><h1 align="center"> <img alt="" src=".github/img/logo.png" > </h1></strong>
 
-## Diagrama
+## 📌 Diagrama
 
 Abaixo diagrama utiliazado para criação do banco de dados:
 
