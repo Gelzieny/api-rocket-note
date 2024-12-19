@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./src/server.js",
     "dev": "nodemon ./src/server.js",
-    "migrate": "knex migrate:latest"
+    "migrate": "knex migrate:latest",
+    "migrate-create": "knex migrate:make createLinks"
   },
   "author": "Gelzieny R. Martins",
   "license": "MIT",
