@@ -27,7 +27,7 @@ class UsersController {
   }
 
   async update(request, response) {
-    const { name, email, password, old_password } = request.body
+    const { name, email, password, old_password, avatar } = request.body
     const { id } = request.params
 
     const database = await sqliteConnection()
@@ -48,6 +48,7 @@ class UsersController {
 
     user.name = name
     user.email = email
+    user.avatar = avatar
 
     if (password && !old_password) {
       throw new AppError(
@@ -71,9 +72,10 @@ class UsersController {
      name = ?,
      email = ?,
      password = ?,
-     updated_at = ?
+     avatar = ?,
+     updated_at = DATETIME('now')
      WHERE id = ?`,
-      [user.name, user.email, user.password, new Date(), id]
+      [user.name, user.email, user.password, user.avatar, id]
     )
 
     return response.json()
