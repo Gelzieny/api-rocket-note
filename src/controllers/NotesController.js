@@ -5,14 +5,12 @@ class NotesController {
     const { title, description, tags = [], links = [] } = request.body // Valores padrão
     const { user_id } = request.params
 
-    // Insere a nota
     const [note_id] = await knex('notes').insert({
       title,
       description,
       user_id,
     })
 
-    // Insere os links
     if (Array.isArray(links) && links.length > 0) {
       const linksInsert = links.map(link => ({
         note_id,
@@ -21,9 +19,7 @@ class NotesController {
       await knex('links').insert(linksInsert)
     }
 
-    // Verifica e insere tags
     if (Array.isArray(tags) && tags.length > 0) {
-      // Recupera tags já existentes no banco
       const existingTags = await knex('tags')
         .whereIn('name', tags)
         .andWhere({ user_id })
@@ -31,7 +27,6 @@ class NotesController {
 
       const existingTagNames = existingTags.map(tag => tag.name)
 
-      // Filtra apenas as novas tags
       const newTags = tags.filter(tag => !existingTagNames.includes(tag))
 
       if (newTags.length > 0) {
@@ -42,13 +37,29 @@ class NotesController {
         }))
 
         await knex('tags').insert(tagsInsert)
-        console.log('Novas tags inseridas:', tagsInsert) // Log de confirmação
+        console.log('Novas tags inseridas:', tagsInsert)
       } else {
-        console.log('Nenhuma nova tag para inserir.') // Log para tags já existentes
+        console.log('Nenhuma nova tag para inserir.')
       }
     }
 
     return response.status(201).json({ message: 'Nota criada com sucesso!' })
+  }
+
+  async show(request, response) {
+    const { id } = request.params
+
+    const note = await knex('notes').where({ id }).first()
+    const tags = await knex('tags').where({ note_id: id }).orderBy('name')
+    const links = await knex('links')
+      .where({ note_id: id })
+      .orderBy('created_at')
+
+    return response.json({
+      ...note,
+      tags,
+      links,
+    })
   }
 }
 
