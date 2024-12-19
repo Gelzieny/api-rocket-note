@@ -61,6 +61,22 @@ class NotesController {
       links,
     })
   }
+
+  async delete(request, response) {
+    const { id } = request.params
+
+    await knex('notes').where({ id }).delete()
+
+    return response.json()
+  }
+
+  async index(request, response) {
+    const { user_id } = request.query
+
+    const notes = await knex('notes').where({ user_id }).orderBy('title')
+
+    return response.json(notes)
+  }
 }
 
 module.exports = NotesController
