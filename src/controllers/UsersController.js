@@ -16,7 +16,7 @@ class UsersController {
       throw new AppError('Este e-mail já está em uso.')
     }
 
-    response.status(201).json()
+    return response.status(201).json()
   }
 }
 
