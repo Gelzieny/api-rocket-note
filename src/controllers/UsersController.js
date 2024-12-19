@@ -46,9 +46,9 @@ class UsersController {
       throw new AppError('Este e-mail já está em uso.')
     }
 
-    user.name = name
-    user.email = email
-    user.avatar = avatar
+    user.name = name ?? user.name
+    user.email = email ?? user.email
+    user.avatar = avatar ?? user.avatar
 
     if (password && !old_password) {
       throw new AppError(
