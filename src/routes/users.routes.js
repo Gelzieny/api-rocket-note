@@ -3,11 +3,13 @@ const multer = require('multer')
 const uploadConfig = require('../config/upload')
 
 const UsersController = require('../controllers/UsersController')
+const UserAvatarController = require('../controllers/UserAvatarController')
 const ensureAuthenticated = require('../middleware/ensureAuthenticated')
 
 const usersRoutes = Router()
 
 const usersController = new UsersController()
+const userAvatarController = new UserAvatarController()
 const upload = multer(uploadConfig.MULTER)
 
 usersRoutes.post('/', usersController.create)
