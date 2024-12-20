@@ -3,7 +3,7 @@ const AppError = require('../utils/AppError')
 const knex = require('../database/knex')
 const { sign } = require('jsonwebtoken')
 
-const authConfig = require('../configs/auth')
+const authConfig = require('../config/auth')
 
 class SessionsController {
   async create(request, response) {
